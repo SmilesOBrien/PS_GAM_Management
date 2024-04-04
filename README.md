@@ -9,3 +9,5 @@ This script has the following pre-requisites:
 3. An Excel document in which you input
 
 Please note: this was written specifically with my environment in mind, please edit the script as appropriate for your environment
+
+I'm not a coder / scripter, just a tech who wanted a better tool. If you have any suggestions please let me know!
