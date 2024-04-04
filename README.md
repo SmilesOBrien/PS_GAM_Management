@@ -1,7 +1,7 @@
 # PS_GAM_Management
 A PSE (Plain Stupid English) interface using PowerShell to manage Google Workspace accounts and Chrome Devices
 
-I wrote this script as a way to easily manage users and devices in Google Workspace for the school I work at. I love the GAM suite of tools but for what I want out of it, I didn't want to have to memorize commands and syntaxes. I just wanted an easy way to put in a device Asset ID and let it rip.
+I wrote this script as a way to easily manage users and devices in Google Workspace for the school I work at. This was inspired by various posts I saw where people leveraged PowerShell to interact with GAM. I love GAM and what it does, but I didn't want to have to memorize commands and syntaxes or have to constantly go back to a cheatsheet. I just wanted an easy way to put in a device Asset ID and let it rip.
 
 This script has the following pre-requisites:
 1. Google Apps Manager (GAM)
