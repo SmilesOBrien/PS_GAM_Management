@@ -6,8 +6,16 @@ I wrote this script as a way to easily manage users and devices in Google Worksp
 This script has the following pre-requisites:
 1. Google Apps Manager (GAM)
 2. The PowerShell Module "ImportExcel"
-3. An Excel document in which you input
+3. An Excel document in which you input your data
 
 Please note: this was written specifically with my environment in mind, please edit the script as appropriate for your environment
 
 I'm not a coder / scripter, just a tech who wanted a better tool. If you have any suggestions please let me know!
+
+HOW TO USE:
+
+1. Edit the variables for $ExcelDB, $Worksheet, and $Column as appropriate for your environment
+2. Edit any of the Write-Host statements as appropriate for your environment, and the corresponding language in the script below
+
+PLANNED CHANGES:
+1. Adding language use as variables for easier editing (for e.g. $lang1 = "Input Asset ID without leading 0" being set at the top of the script, and called where approrpiate, so if edit is needed you only need to edit in one place)
