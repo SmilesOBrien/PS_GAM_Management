@@ -10,9 +10,11 @@ This script has the following pre-requisites:
 
 Please note: this was written specifically with my environment in mind, please edit the script as appropriate for your environment
 
-I'm not a coder / scripter, just a tech who wanted a better way to leverage his tools. If you have any suggestions please let me know!
+I'm not a coder / scripter, just a tech who wanted a better way to leverage his tools. If you have any suggestions please let me know! I can't guarantee a swift turn-around but I'm happy to make this tool better!
 
 HOW TO USE:
 
 1. Edit the variables for $ExcelDB, $Worksheet, and $Column as appropriate for your environment
 2. Edit any of the Write-Host statements as appropriate for your environment, and the corresponding language in the script below
+
+NOTE: The environment this was written for uses the Asset ID field in Google Workspace. You may need to edit this script to work better in your environment off of a different descriptor. Any suggestions on making this more interoperable would be welcome.
