@@ -16,7 +16,3 @@ HOW TO USE:
 
 1. Edit the variables for $ExcelDB, $Worksheet, and $Column as appropriate for your environment
 2. Edit any of the Write-Host statements as appropriate for your environment, and the corresponding language in the script below
-
-PLANNED CHANGES:
-1. Adding language use as variables for easier editing (for e.g. $lang1 = "Input Asset ID without leading 0" being set at the top of the script, and called where approrpiate, so if edit is needed you only need to edit in one place)
-2. Adding nested menues, to control how long the Main Menu of the script is at any one time (for e.g. "Are you working on a User or a Device" etc)
