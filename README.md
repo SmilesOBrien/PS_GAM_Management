@@ -14,7 +14,7 @@ I'm not a coder / scripter, just a tech who wanted a better way to leverage his 
 
 HOW TO USE:
 
-1. Edit the variables for $ExcelDB, $Worksheet, and $Column as appropriate for your environment
+1. Edit the variables as appropriate for your environment
 2. Edit any of the Write-Host statements as appropriate for your environment, and the corresponding language in the script below
 
 NOTE: The environment this was written for uses the Asset ID field in Google Workspace. You may need to edit this script to work better in your environment off of a different descriptor. Any suggestions on making this more interoperable would be welcome.
