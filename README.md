@@ -1,3 +1,6 @@
+# Planned Changes
+ - Transition from using the Import-Excel module to using import-csv
+
 # start-PSGAM
 A PSE (Plain Stupid English) interface using PowerShell to manage Google Workspace accounts and Chrome Devices
 
@@ -14,11 +17,9 @@ I'm not a coder / scripter, just a tech who wanted a better way to leverage his 
 
 HOW TO USE:
 
-1. Call the script and specify the variable -ExcelDB with whatever path takes you to the Excel document you're using.
-  - If you don't specify -sheet and -column, it will default to "Chromebooks" and "AssetNum" by default
-
-2. Select whether you are working with an Asset, and User, or wish to enter a manual GAM command
-
-3. Choose the option that is most applicable to your situation
+- Call the script and specify the variable -ExcelDB with whatever path takes you to the Excel document you're using.
+- If you don't specify -sheet and -column, it will default to "Chromebooks" and "AssetNum" by default
+- Select whether you are working with an Asset, and User, or wish to enter a manual GAM command
+- Choose the option that is most applicable to your situation
 
 NOTE: The environment this was written for uses the Asset ID field in Google Workspace. You may need to edit this script to work better in your environment off of a different descriptor. Any suggestions on making this more interoperable would be welcome.
