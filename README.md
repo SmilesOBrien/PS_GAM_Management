@@ -21,3 +21,16 @@ HOW TO USE:
 - Choose the option that is most applicable to your situation
 
 NOTE: The environment this was written for uses the Asset ID field in Google Workspace. You may need to edit this script to work better in your environment off of a different descriptor. Any suggestions on making this more interoperable would be welcome.
+
+# Current Capabilities
+ - Find the serial number of single and bulk devices via the AssetID parameter
+ - Move individual or bulk devices via the AssetID parameter
+ - Wipe individual or bulk devices via the AssetID parameter
+ - Enable / disable individual devices
+ - Powerwash individual devices
+ - Add or remove a user from a specified group
+ - Delete emails from ALL inboxes via MessageID or Sender Address
+ - Reset Google Password
+ - Show Google Classrooms owned by specified teacher email address
+ - Add teacher to individual or bulk courses and make owner
+ - Run a manual command
