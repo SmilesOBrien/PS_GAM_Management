@@ -1,33 +1,27 @@
-Function start-PSGAM {
-
     <#
     .SYNOPSIS
         A PSE (Plain Stupid English) interface using PowerShell to manage Google Workspace accounts and Chrome Devices
 
     .DESCRIPTION
-        This script requires the Import-Excel powershell module. More information can be found here https://github.com/smiles-obrien/PS_GAM_Management
-        Without other parameters, $Sheet defaults to "Chromebooks" and $Column defaults to "AssetNum"
+        Without other parameters, $Header defaults to "AssetNum"
+        More information can be found here https://github.com/smiles-obrien/PS_GAM_Management
 
-    .PARAMETER ExcelDB
-        Path to your Excel file
+    .PARAMETER csv
+        Path to your CSV file
 
-    .PARAMETER Sheet
-        Worksheet name, defaults to "Chromebooks"
-
-    .PARAMETER Column
-        Column name, defaults to "AssetNum"
+    .PARAMETER Header
+        CSV header name, defaults to "AssetNum"
 
     .EXAMPLE
-        PS> start-PSGAM -ExcelDB "D:\My Drive\Sheets\Chromebook Management.xlsx"
+        PS> start-PSGAM -CSV "D:\My Drive\Sheets\Chromebook Management.xlsx"
 
     .EXAMPLE
-        PS> start-PSGAM -ExcelDB "D:\My Drive\Sheets\Chromebook Management.xlsx" -Sheet "Course" -Column "ClassID"
+        PS> start-PSGAM -CSV "D:\My Drive\Sheets\Chromebook Management.xlsx" -Header "CourseID"
     #>
 
     param(
-        [Parameter(Mandatory)][string]$ExcelDB,
-        [string]$Sheet = "Chromebooks",
-        [string]$Column = "AssetNum"
+        [Parameter(Mandatory)][string]$csv,
+        [string]$Header = "AssetNum"
     )
 
     $lang1 = "Input Asset ID without leading 0"
@@ -38,7 +32,7 @@ Function start-PSGAM {
     $Choices = [System.Management.Automation.Host.ChoiceDescription[]] @("&Assets", "&Users", "&Manual GAM Command")
     $Default = 0
 
-    # Choices
+    # Prompt for the choice
     $Choice = $host.UI.PromptForChoice($Title, $Prompt, $Choices, $Default)
 
     # Action based on choice
@@ -81,8 +75,7 @@ Function start-PSGAM {
                     '2'{ #Find serial number of bulk devices, write output to host
             
                         [System.Environment]::NewLine
-
-                        $AssetData = Import-Excel -path $ExcelDB -WorksheetName $Sheet  | Select-Object -ExpandProperty $Column
+                        $AssetData = $AssetData = Import-csv -path $csv | Select-Object -ExpandProperty $Header
                         $( ForEach ( $asset in $AssetData ) {
             
                             $sn = @( gam info cros query:asset_id:$asset serialnumber asset_ID ) | ConvertFrom-String -delimiter "serialNumber: "
@@ -117,7 +110,7 @@ Function start-PSGAM {
                     '4'{ #Using Asset tag as reference, move devices to desired Workspace OU, write output to host
                     
                         $OU = Read-Host "Enter Destination OU Path"
-            
+                        $AssetData = Import-csv -path $csv | Select-Object -ExpandProperty $Header
                         ForEach ( $asset in $AssetData ) {
             
                             gam update cros query:asset_id:$asset ou "$OU" | Write-Host
@@ -127,7 +120,7 @@ Function start-PSGAM {
             
                         Read-Host -Prompt "Press Enter to return to menu"
                     }
-                    '5' { #Using Asset tag as reference, wipe user accounts on bulk devices, write output to host
+                    '5' { #Using Asset tag as reference, wipe user accounts on single device, write output to host
                         
                         $SingleAsset = Read-Host $lang1
             
@@ -139,6 +132,7 @@ Function start-PSGAM {
                     }
                     '6'{ #Using Asset tag as reference, wipe user accounts on bulk devices, write output to host
             
+                        $AssetData = Import-csv -path $csv | Select-Object -ExpandProperty $Header
                         ForEach ( $asset in $AssetData ) {
             
                             [System.Environment]::NewLine
@@ -304,7 +298,7 @@ Function start-PSGAM {
                     }
                     '7'{ #Google Classroom bulk assign
                         $Teacher = read-host "Input Email Address"
-                        $CourseData = Import-Excel -path $ExcelDB -WorksheetName $Sheet  | Select-Object -ExpandProperty $Column
+                        $CourseData = Import-csv -path $csv | Select-Object -ExpandProperty $Header
                         ForEach ( $class in $CourseData ) {
 
                             gam course $class add teacher $Teacher | Write-Host
@@ -350,4 +344,3 @@ Function start-PSGAM {
             } until ($again -eq "n")
         }
     }
-}
