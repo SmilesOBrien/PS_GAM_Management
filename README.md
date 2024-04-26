@@ -1,5 +1,6 @@
 # Planned Changes
  - Cleaning up code to only load / call CSV when working with a bulk-action
+ - Specify CSV via Windows Explorer
  - Calling GAM commands as functions based on inputs, rather than as repeat code
 
 # start-PSGAM
