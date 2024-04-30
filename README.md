@@ -2,6 +2,7 @@
  - Cleaning up code to only load / call CSV when working with a bulk-action
  - Specify CSV via Windows Explorer
  - Calling GAM commands as functions based on inputs, rather than as repeat code
+ - Add support for Google Drive management
 
 # start-PSGAM
 A PSE (Plain Stupid English) interface using PowerShell to manage Google Workspace accounts and Chrome Devices
