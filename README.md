@@ -1,8 +1,8 @@
 # Planned Changes
  - Cleaning up code to only load / call CSV when working with a bulk-action
- - Specify CSV via Windows Explorer
  - Calling GAM commands as functions based on inputs, rather than as repeat code
  - Add support for Google Drive management
+ - Update up get-csvandheaders code to skip null values in CSV (current this is handled when the fuction is called, isntead of in the function itself)
 
 # start-PSGAM
 A PSE (Plain Stupid English) interface using PowerShell to manage Google Workspace accounts and Chrome Devices
@@ -17,10 +17,11 @@ I'm not a coder / scripter, just a tech who wanted a better way to leverage his 
 
 HOW TO USE:
 
-- Call the script and specify the parameter -csv with whatever path takes you to the csv you're using.
-- If you don't specify -header, it will default and "AssetNum"
+- Call the script
 - Select whether you are working with an Asset, and User, or wish to enter a manual GAM command
 - Choose the option that is most applicable to your situation
+- If making a bulk change, a file explorer window will prompt you to choose a CSV file.
+- You can use one CSV for everything, the script will prompt you to select which header you are using.
 
 NOTE: The environment this was written for uses the Asset ID field in Google Workspace. You may need to edit this script to work better in your environment off of a different descriptor. Any suggestions on making this more interoperable would be welcome.
 
