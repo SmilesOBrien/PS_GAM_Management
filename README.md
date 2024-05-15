@@ -1,8 +1,8 @@
 # Planned Changes
- - Cleaning up code to only load / call CSV when working with a bulk-action
  - Calling GAM commands as functions based on inputs, rather than as repeat code
  - Add support for Google Drive management
  - Update up get-csvandheaders code to skip null values in CSV (current this is handled when the fuction is called, isntead of in the function itself)
+ - Add support for adding students to google classrooms
 
 # start-PSGAM
 A PSE (Plain Stupid English) interface using PowerShell to manage Google Workspace accounts and Chrome Devices
