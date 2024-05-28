@@ -167,7 +167,6 @@ function Show-OpenFileDialog {
         }
     }
 }
-
 function Get-CSVandHeaders {
     <#
     .SYNOPSIS
@@ -262,7 +261,7 @@ Switch($Choice) {
             }
             '2'{ #Find serial number of bulk devices, write output to host
                 
-                Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
+                $Data = Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
 
                 # Filter out the path CSV Path from $Data
                 $FilteredData = $Data[1..($Data.Count)]
@@ -302,7 +301,7 @@ Switch($Choice) {
             }
             '4'{ #Using Asset tag as reference, move bulk devices to desired Workspace OU, write output to host
             
-                Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
+                $Data = Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
 
                 # Filter out the path CSV Path from $Data
                 $FilteredData = $Data[1..($Data.Count)]
@@ -332,7 +331,7 @@ Switch($Choice) {
             }
             '6'{ #Using Asset tag as reference, wipe user accounts on bulk devices, write output to host
     
-                Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
+                $Data = Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
 
                 # Filter out the path CSV Path from $Data
                 $FilteredData = $Data[1..($Data.Count)]
@@ -416,6 +415,7 @@ Switch($Choice) {
             Write-Host "6. Show Google Classroom by User" -ForegroundColor White
             Write-Host "7. Update Google Classroom Owner - Bulk Classes" -ForegroundColor White
             Write-Host "8. Update Google Classroom Owner - Single Class" -ForegroundColor White
+            Write-Host "9. Add individual student to Google Classroom - Single Class" -ForegroundColor White
             Write-Host "Q. Quit" -ForegroundColor Yellow
             [System.Environment]::NewLine
             $choice = Read-Host "Enter Choice"
@@ -448,14 +448,14 @@ Switch($Choice) {
                 '3'{ #Using MessageID as reference, delete email from all inboxes
 
                     [System.Environment]::NewLine
-                    $email = Read-host "Input email address of reporter"
+                    $reporter = Read-host "Input email address of reporter"
                     $MessageID = Read-Host "Input Message ID"
                     [System.Environment]::NewLine
                     Write-host "Checking all mailboxes for specified Message ID, and deleting. Operation will take approximately 3 minutes"
 
-                        gam all users delete messages query rfc822msgid:$MessageID doit *> "$env:UserProfile\Documents\'$email'_deleteEmail_$(get-date -Format yyyy-MM-dd_HHmm).txt"
+                        gam all users delete messages query rfc822msgid:$MessageID doit *> "$env:UserProfile\Documents\'$reporter'_deleteEmail_$(get-date -Format yyyy-MM-dd_HHmm).txt"
 
-                    Get-ChildItem -path $env:UserProfile\Documents -filter "'$email'_deleteEmail*.txt" -recurse | Sort-Object CreationTime -Descending | Select-Object -First 1 | select-string -pattern 'Got 1 Messages'
+                    Get-ChildItem -path $env:UserProfile\Documents -filter "'$reporter'_deleteEmail*.txt" -recurse | Sort-Object CreationTime -Descending | Select-Object -First 1 | select-string -pattern 'Got 1 Messages'
                     [System.Environment]::NewLine
                     Read-Host -Prompt "Press Enter to return to menu"
 
@@ -463,14 +463,14 @@ Switch($Choice) {
                 '4'{ #Using Sender Address as reference, delete email from all inboxes
 
                     [System.Environment]::NewLine
-                    $email = Read-host "Input email address of reporter"
-                    $sender = Read-Host "Input email address of sender"
+                    $reporter = Read-host "Input email address of reporter"
+                    $msgsender = Read-Host "Input email address of sender"
                     [System.Environment]::NewLine
                     Write-host "Checking all mailboxes for specified sender address and deleting. Operation will take approximately 3 minutes"
 
-                        gam all users delete messages query "from:$sender" doit *> "$env:UserProfile\Documents\'$email'_deleteEmail_$(get-date -Format yyyy-MM-dd_HHmm).txt"
+                        gam all users delete messages query "from:$msgsender" doit *> "$env:UserProfile\Documents\'$reporter'_deleteEmail_$(get-date -Format yyyy-MM-dd_HHmm).txt"
 
-                    Get-ChildItem -path $env:UserProfile\Documents -filter "'$email'_deleteEmail*.txt" -recurse | Sort-Object CreationTime -Descending | Select-Object -First 1 | select-string -pattern 'Got 1 Messages'
+                    Get-ChildItem -path $env:UserProfile\Documents -filter "'$reporter'_deleteEmail*.txt" -recurse | Sort-Object CreationTime -Descending | Select-Object -First 1 | select-string -pattern 'Got 1 Messages'
                     [System.Environment]::NewLine
                     Read-Host -Prompt "Press Enter to return to menu"
 
@@ -494,7 +494,7 @@ Switch($Choice) {
                     Read-Host -Prompt "Press Enter to return to menu"
 
                 }
-                '7'{ #Google Classroom bulk assign
+                '7'{ #Update Google Classroom owner - bulk
                     
                     $Teacher = read-host "Input Email Address"
                     $Data = Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
@@ -513,12 +513,22 @@ Switch($Choice) {
                     Read-Host -Prompt "Press Enter to return to menu"
 
                 }
-                '8'{ #Google Classroom single assign
+                '8'{ #Update Google Classroom owner - single
                     $Teacher = read-host "Input Email Address"
                     $CourseID = read-host "Input Course ID"
 
                         gam course $CourseID add teacher $Teacher | Write-Host
                         gam update course $CourseID owner $Teacher | Write-Host
+
+                    [System.Environment]::NewLine
+
+                    Read-Host -Prompt "Press Enter to return to menu"
+                }
+                '9'{ #Add student to Google Classroom
+                    $Student = read-host "Input Email Address"
+                    $CourseID = read-host "Input Course ID"
+
+                        gam course $CourseID add student $Student | Write-Host
 
                     [System.Environment]::NewLine
 
