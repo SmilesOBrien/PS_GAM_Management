@@ -28,6 +28,7 @@ public class WindowHelper {
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+    
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -234,7 +235,9 @@ Switch($Choice) {
             Write-Host "6. Wipe Users From Device - Bulk Devices" -ForegroundColor White
             Write-Host "7. Disable Single Device" -ForegroundColor White
             Write-Host "8. Enable Single Device" -ForegroundColor White
-            Write-Host "9. Powerwash Device - Single Device" -ForegroundColor White
+            Write-host "9. Disable Bulk Devices" -ForegroundColor White
+            Write-host "10. Enable Bulk Devices" -ForegroundColor White
+            Write-Host "11. Powerwash Device - Single Device" -ForegroundColor White
             Write-Host "Q. Quit" -ForegroundColor Yellow
             [System.Environment]::NewLine
             $choice = Read-Host "Enter Choice"
@@ -381,7 +384,41 @@ Switch($Choice) {
     
                 Read-Host -Prompt "Press Enter to return to menu"
             }
-            '9'{ #Using AssetID as reference, Powerwash single device
+            '9'{
+                $Data = Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
+
+                # Filter out the path CSV Path from $Data
+                $FilteredData = $Data[1..($Data.Count)]
+
+                [System.Environment]::NewLine
+
+                $FilteredData | ForEach-Object {
+                    $sn = @( gam info cros query:asset_id:$_ serialnumber asset_ID ) | ConvertFrom-String -delimiter "serialNumber: "
+                    gam update cros cros_sn $sn.p2 action disable
+                }
+    
+                [System.Environment]::NewLine
+    
+                Read-Host -Prompt "Press Enter to return to menu"
+            }
+            '10'{
+                $Data = Get-CSVandHeaders | Where-Object { $_.PSObject.Properties.Value -ne '' } # This returns the CSV Path as the first line before the asset data, and skips empty cells. I plan to clean this in a future release.
+
+                # Filter out the path CSV Path from $Data
+                $FilteredData = $Data[1..($Data.Count)]
+
+                [System.Environment]::NewLine
+
+                $FilteredData | ForEach-Object {
+                    $sn = @( gam info cros query:asset_id:$_ serialnumber asset_ID ) | ConvertFrom-String -delimiter "serialNumber: "
+                    gam update cros cros_sn $sn.p2 action reenable
+                }
+    
+                [System.Environment]::NewLine
+    
+                Read-Host -Prompt "Press Enter to return to menu"
+            }
+            '11'{ #Using AssetID as reference, Powerwash single device
 
                 [System.Environment]::NewLine
 
